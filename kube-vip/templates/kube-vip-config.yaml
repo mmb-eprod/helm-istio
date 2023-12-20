@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: kube-vip
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app: kube-vip
+  template:
+    metadata:
+      labels:
+        app: kube-vip
+    spec:
+      hostNetwork: true
+      containers:
+      - name: kube-vip
+        image: plndr/kube-vip:0.3.3
+        args:
+        - vip
+        - start
+        - --vip=<Your-VIP-IP>
+        - --controlplane
+        - --interface=<Your-Network-Interface>
