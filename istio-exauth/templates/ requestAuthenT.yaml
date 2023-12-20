@@ -1,0 +1,11 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: secureauth
+spec:
+  selector:
+    matchLabels:
+      app: your-microservice
+  jwtRules:
+    - issuer: $(secureauth-issuer)
+      jwksUri: $(secureauth-jwks-uri)
