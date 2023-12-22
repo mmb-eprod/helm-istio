@@ -4,3 +4,9 @@ name: <CHARTNAME>
 type: application
 version: 1.0.0
 icon: https://istio.io/latest/img/istio-whitelogo-bluebackground-framed.svg
+
+---
+apiVersion: v2
+name: my-istio-gateway-chart
+description: A Helm chart for Istio Gateway
+version: 1.0.0

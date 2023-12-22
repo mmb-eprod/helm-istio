@@ -1,0 +1,24 @@
+apiVersion: security.istio.io/v1beta1
+kind: AuthorizationPolicy
+metadata:
+  name: require-jwt
+spec:
+  selector:
+    matchLabels:
+      app: your-app
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["*"]
+    to:
+    - operation:
+        methods: ["GET", "POST"]
+        paths: ["/api"]
+      when:
+      - key: request.auth.claims[iss]
+        values: ["secureauth-issuer"] # SecureAuth JWT issuer
+      - key: request.auth.claims[aud]
+        values: ["your-app-audience"] # Your app's audience
+      - key: request.auth.claims[roles]
+        values: ["admin", "user"] # Authorized roles

@@ -26,6 +26,11 @@ passthroughTls:
 
   google:
     externalHost: "*.google.com"
-
+---
+gatewayName: custom-gateway
+gatewayPort: 8080
+gatewayProtocol: HTTPS
+gatewayHosts:
+  - "example.com"
 
     

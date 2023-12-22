@@ -9,3 +9,5 @@ spec:
   jwtRules:
     - issuer: $(secureauth-issuer)
       jwksUri: $(secureauth-jwks-uri)
+      audiences:
+    - "your-app-audience" # Your app's audience

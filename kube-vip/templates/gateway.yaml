@@ -12,3 +12,19 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
+
+---
+apiVersion: networking.istio.io/v1alpha3
+kind: Gateway
+metadata:
+  name: {{ .Values.gatewayName }}
+spec:
+  selector:
+    istio: ingressgateway
+  servers:
+    - port:
+        number: {{ .Values.gatewayPort }}
+        name: http
+        protocol: {{ .Values.gatewayProtocol }}
+      hosts:
+        - {{ .Values.gatewayHosts | toYaml | nindent 12 }}
