@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: Gateway
 metadata:
-  name: my-gateway
+  name: {{ .Values.istio.gateway.name }}
 spec:
   selector:
     istio: ingressgateway
@@ -12,19 +12,34 @@ spec:
       protocol: HTTP
     hosts:
     - "*"
-
 ---
-apiVersion: networking.istio.io/v1alpha3
-kind: Gateway
-metadata:
-  name: {{ .Values.gatewayName }}
-spec:
-  selector:
-    istio: ingressgateway
-  servers:
-    - port:
-        number: {{ .Values.gatewayPort }}
-        name: http
-        protocol: {{ .Values.gatewayProtocol }}
-      hosts:
-        - {{ .Values.gatewayHosts | toYaml | nindent 12 }}
+# apiVersion: networking.istio.io/v1alpha3
+# kind: Gateway
+# metadata:
+#   name: my-gateway
+# spec:
+#   selector:
+#     istio: ingressgateway
+#   servers:
+#   - port:
+#       number: 80
+#       name: http
+#       protocol: HTTP
+#     hosts:
+#     - "*"
+
+# ---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: Gateway
+# metadata:
+#   name: {{ .Values.gatewayName }}
+# spec:
+#   selector:
+#     istio: ingressgateway
+#   servers:
+#     - port:
+#         number: {{ .Values.gatewayPort }}
+#         name: http
+#         protocol: {{ .Values.gatewayProtocol }}
+#       hosts:
+#         - {{ .Values.gatewayHosts | toYaml | nindent 12 }}

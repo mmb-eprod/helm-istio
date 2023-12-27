@@ -4,9 +4,23 @@ metadata:
   name: secureauth-service
 spec:
   hosts:
-  - secureauth-service.example.com  # Hostname of the external authentication service
+  - {{ .Values.externalHostName }}
   ports:
   - number: 443
     name: https
     protocol: HTTPS
   resolution: DNS
+
+---
+# apiVersion: networking.istio.io/v1alpha3
+# kind: ServiceEntry
+# metadata:
+#   name: secureauth-service
+# spec:
+#   hosts:
+#   - secureauth-service.example.com  # Hostname of the external authentication service
+#   ports:
+#   - number: 443
+#     name: https
+#     protocol: HTTPS
+#   resolution: DNS
