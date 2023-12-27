@@ -1,18 +1,18 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.my-service.name }}
+  name: {{ .Values.my-service.name }}  # The name of the Service is based on a Helm value.
 spec:
   selector:
     {{- with .Values.my-service.appSelector }}
     matchLabels:
-      {{- toYaml . | nindent 6 }}
+      {{- toYaml . | nindent 6 }}  # Select pods based on configurable labels.
     {{- end }}
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: {{ .Values.my-service.port.targetPort }}
-  type: LoadBalancer
+    - protocol: TCP  # The Service exposes a TCP protocol.
+      port: 80       # It listens on port 80 externally.
+      targetPort: {{ .Values.my-service.port.targetPort }}  # Forward traffic to a configurable target port.
+  type: LoadBalancer  # It's configured as a LoadBalancer type Service.
 
 ---
 # apiVersion: v1
