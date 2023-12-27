@@ -4,13 +4,31 @@ metadata:
   name: secureauth-config
 data:
   # User/Service 1 Configuration
-  user1-issuer: "https://secureauth-url-for-user1"
-  user1-jwks-uri: "https://secureauth-jwks-uri-for-user1"
+  user1-issuer: {{ .Values.user1Issuer }}
+  user1-jwks-uri: {{ .Values.user1JwksUri }}
 
   # User/Service 2 Configuration
-  user2-issuer: "https://secureauth-url-for-user2"
-  user2-jwks-uri: "https://secureauth-jwks-uri-for-user2"
+  user2-issuer: {{ .Values.user2Issuer }}
+  user2-jwks-uri: {{ .Values.user2JwksUri }}
 
   # User/Service 3 Configuration
-  user3-issuer: "https://secureauth-url-for-user3"
-  user3-jwks-uri: "https://secureauth-jwks-uri-for-user3"
+  user3-issuer: {{ .Values.user3Issuer }}
+  user3-jwks-uri: {{ .Values.user3JwksUri }}
+
+---
+# apiVersion: v1
+# kind: ConfigMap
+# metadata:
+#   name: secureauth-config
+# data:
+#   # User/Service 1 Configuration
+#   user1-issuer: "https://secureauth-url-for-user1"
+#   user1-jwks-uri: "https://secureauth-jwks-uri-for-user1"
+
+#   # User/Service 2 Configuration
+#   user2-issuer: "https://secureauth-url-for-user2"
+#   user2-jwks-uri: "https://secureauth-jwks-uri-for-user2"
+
+#   # User/Service 3 Configuration
+#   user3-issuer: "https://secureauth-url-for-user3"
+#   user3-jwks-uri: "https://secureauth-jwks-uri-for-user3"

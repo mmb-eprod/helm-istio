@@ -5,6 +5,11 @@ appAudience: your-app-audience
 externalServiceName: secureauth-service.example.com
 externalHostName: secureauth-service.example.com
 virtualServiceHostName: your-app.example.com
-
-
+user1Issuer: "https://secureauth-url-for-user1"
+user1JwksUri: "https://secureauth-jwks-uri-for-user1"
+user2Issuer: "https://secureauth-url-for-user2"
+user2JwksUri: "https://secureauth-jwks-uri-for-user2"
+user3Issuer: "https://secureauth-url-for-user3"
+user3JwksUri: "https://secureauth-jwks-uri-for-user3"
+microserviceHost: "your-microservice.example.com"
     

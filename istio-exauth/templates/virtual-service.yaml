@@ -1,0 +1,62 @@
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: your-microservice
+spec:
+  hosts:
+    - {{ .Values.microserviceHost }}
+  http:
+    - route:
+        - destination:
+            host: your-microservice
+        headers:
+          request:
+            authorization:
+              required: true
+      fault:
+        abort:
+          httpStatus: 401
+          percentage:
+            value: 100
+---
+# apiVersion: networking.istio.io/v1beta1
+# kind: VirtualService
+# metadata:
+#   name: your-microservice
+# spec:
+#   hosts:
+#     - your-microservice.example.com
+#   http:
+#     - route:
+#         - destination:
+#             host: your-microservice
+#         headers:
+#           request:
+#             authorization:
+#               required: true
+#       fault:
+#         abort:
+#           httpStatus: 401
+#           percentage:
+#             value: 100
+
+# ---
+
+# apiVersion: networking.istio.io/v1alpha3
+# kind: VirtualService
+# metadata:
+#   name: my-service-route
+# spec:
+#   hosts:
+#     - "*"
+#   gateways:
+#     - my-gateway
+#   http:
+#     - match:
+#         - uri:
+#             prefix: "/api"  # Match requests with the "/api" prefix
+#       route:
+#         - destination:
+#             host: my-service
+#             port:
+#               number: 80  # Port of the destination service

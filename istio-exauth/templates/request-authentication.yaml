@@ -1,0 +1,28 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: secureauth
+spec:
+  selector:
+    matchLabels:
+      app: your-microservice
+  jwtRules:
+    - issuer: {{ .Values.secureauthIssuer }}
+      jwksUri: {{ .Values.secureauthJwksUri }}
+      audiences:
+        - {{ .Values.appAudience }}
+
+# ---
+# apiVersion: security.istio.io/v1beta1
+# kind: RequestAuthentication
+# metadata:
+#   name: secureauth
+# spec:
+#   selector:
+#     matchLabels:
+#       app: your-microservice
+#   jwtRules:
+#     - issuer: $(secureauth-issuer)
+#       jwksUri: $(secureauth-jwks-uri)
+#       audiences:
+#     - "your-app-audience" # Your app's audience
