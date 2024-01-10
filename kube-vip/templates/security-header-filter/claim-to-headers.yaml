@@ -1,0 +1,39 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: jwt-claims-to-headers
+  namespace: my-namespace
+spec:
+  workloadSelector:
+    labels:
+      app: my-app
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+      patch:
+        operation: INSERT_FIRST
+        value:
+          name: envoy.filters.http.lua
+          typed_config:
+            "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+            inlineCode: |
+              function envoy_on_request(request_handle)
+                -- Get JWT payload
+                local payload = request_handle:streamInfo():dynamicMetadata():get("envoy.filters.http.jwt_authn")["jwt_payload"]
+                if payload then
+                  -- Extract email and department claims
+                  local email = payload["email"]
+                  local department = payload["department"]
+                  if email then
+                    request_handle:headers():add("x-user-email", email)
+                  end
+                  if department then
+                    request_handle:headers():add("x-user-department", department)
+                  end
+                end
+              end

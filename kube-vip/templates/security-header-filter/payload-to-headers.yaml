@@ -1,0 +1,44 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: jwt-claims-to-headers
+  namespace: my-namespace
+spec:
+  workloadSelector:
+    labels:
+      app: my-app
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: SIDECAR_INBOUND
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.filters.network.http_connection_manager"
+              subFilter:
+                name: "envoy.filters.http.jwt_authn"
+      patch:
+        operation: INSERT_AFTER
+        value:
+          name: envoy.filters.http.lua
+          typed_config:
+            "@type": "type.googleapis.com/envoy.extensions.filters.http.lua.v3.Lua"
+            inlineCode: |
+              function envoy_on_request(request_handle)
+                local headers, err = request_handle:httpCall(
+                "istio_authn",
+                {
+                  [":method"] = "GET",
+                  [":path"] = "/metadata",
+                  [":authority"] = "istio_authn"
+                },
+                "",
+                5000
+                )
+                if headers then
+                  local role = headers["role"]
+                  if role then
+                    request_handle:headers():add("x-user-role", role)
+                  end
+                end
+              end
