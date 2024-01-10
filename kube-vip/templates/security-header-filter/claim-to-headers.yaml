@@ -1,7 +1,7 @@
 apiVersion: networking.istio.io/v1alpha3
 kind: EnvoyFilter
 metadata:
-  name: jwt-claims-to-headers
+  name: jwt-claims-to-headers-claim
   namespace: my-namespace
 spec:
   workloadSelector:
