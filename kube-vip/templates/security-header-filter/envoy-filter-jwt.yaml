@@ -1,0 +1,45 @@
+apiVersion: networking.istio.io/v1alpha3
+kind: EnvoyFilter
+metadata:
+  name: custom-jwt-filter
+  namespace: istio-system
+spec:
+  workloadSelector:
+    labels:
+      istio: ingressgateway
+  configPatches:
+    - applyTo: HTTP_FILTER
+      match:
+        context: GATEWAY
+        listener:
+          filterChain:
+            filter:
+              name: "envoy.http_connection_manager"
+              subFilter:
+                name: "envoy.router"
+      patch:
+        operation: INSERT_BEFORE
+        value:
+          name: envoy.filters.http.jwt_authn
+          typed_config:
+            "@type": type.googleapis.com/envoy.extensions.filters.http.jwt_authn.v3.JwtAuthentication
+            providers:
+              provider1:
+                issuer: "https://your-issuer.example.com"
+                audiences:
+                  - "your-audience"
+                remoteJwks:
+                  httpUri:
+                    uri: "https://your-issuer.example.com/.well-known/jwks.json"
+                    cluster: outbound|443||your-issuer.example.com
+                    timeout: 5s
+                forward: true
+                forwardPayloadHeader: "x-jwt-payload"
+            rules:
+              - match:
+                  prefix: "/"
+                requires:
+                  providerAndAudiences:
+                    providerName: "provider1"
+                    audiences:
+                      - "your-audience"
