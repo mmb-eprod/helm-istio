@@ -1,0 +1,18 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: jwt-auth
+  namespace: your-namespace
+spec:
+  selector:
+    matchLabels:
+      app: your-app-label  # Replace with the label of your target workload
+  jwtRules:
+  - issuer: "foo.global.io"
+    jwksUri: "https://foo.global.io/.well-known/jwks.json"  # JWKS endpoint for the JWT issuer
+    audiences:
+      - "your-audience"  # Replace with your expected audience, if applicable
+    fromHeaders:
+      - name: Authorization
+        prefix: "Bearer "
+    outputPayloadToHeader: "x-jwt-payload"  # Optional: Forward the JWT payload to the application
