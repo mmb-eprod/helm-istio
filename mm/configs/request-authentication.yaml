@@ -1,0 +1,25 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "RequestAuthentication"
+metadata:
+  name: istio-demo
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  jwtRules:
+  - issuer: "istiodemo"
+    #forwardOriginalToken: true
+    outputPayloadToHeader: authheader
+    outputClaimToHeaders:
+     - header: service
+       claim: service
+    #jwksUri: "https://raw.githubusercontent.com/istio/istio/release-1.7/security/tools/jwt/samples/jwks.json"
+    jwks: '{"keys":[{
+          "kty": "RSA",
+          "e": "AQAB",
+          "use": "sig",
+          "kid": "eiha7LscHAgvmgkD0bB_4gW55b6gP0M56DRLa_xkIfc",
+          "alg": "RS256",
+          "n": "lKEtlW3b06VB-pPltfklQsPWtEll64MY7RUAXpnLvoN47LVkZ21MrBhGF5UiGlKiUmPNchJR6VlCDC5EHLGScP01KSGg_-D3kBiLkHuFZnOWVII_7tE-CUn_D8B3kWg_UHgabDmt_B37x2R3p_cCR_CuTeGUp5akW28o4RMgz4dlAvE3l7Nv08-K4bybACOO7mcsiK-ieFusJCQrlaignTc1k2ejekULTAXO8ecNmTfAYK1QIcL3sxUEnxpBWeaHf6tYIle43i9D3tt-5kjp0eDJbPNvVqCrsM1SOIF4uhp4wHWViFY-Q13tVUm9q17OW_m5MH3cxRW0fBO5001_Jw"
+        }]}'

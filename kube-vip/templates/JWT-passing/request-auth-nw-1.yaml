@@ -1,0 +1,23 @@
+apiVersion: security.istio.io/v1beta1
+kind: RequestAuthentication
+metadata:
+  name: jwt-auth
+  namespace: your-namespace
+spec:
+  selector:
+    matchLabels:
+      app: ingressgateway  # Replace with the label of your target workload
+  jwtRules:
+  - issuer: "jwt-issuer"
+    jwks: '{"keys: [{
+          "kty": "RSA",
+          "e": "AQAB",
+          "use": "sig",
+          "kid": "Qf1in3e8KQZ3ZsgY-aejXoOCU_rhnkZonl_GiShW-Is",
+          "alg": "RS256",
+          "n": "hWlmQmp19UdBqK3iNC8uPgpo6g3TabIu2o_-MNYtrFTCs8ean-t1FZyaHahRBMk1v4mCRI3ms_FAJw-G4tMNr6L4Dz2ljFmdv7bUakJXSZLyiHY8R_w-uZedztY1qnULjQECalGHetgQ78CERZtOqdLM-WSYP9ZPcku75qDMhCn_Ne1JH0vd3Pzb995vOFNwM8xHjKXyVR1xgqqH1q_53gYQ4fOKR7ne37anQD6pH8DOlz1PWKwqjg1To6s_k7-TlSXK-yVvwZiZo6tdkkcJLfMiaLbD0gZY9qWL98wwiGiOy7QEcUBewqu3vmahj_tQB8MMZ4IPpiAA4g2OgG2mFw"
+          }]"}' # JWKS endpoint for the JWT issuer
+
+    # Replace with your expected audience, if applicable
+   
+      # Optional: Forward the JWT payload to the application

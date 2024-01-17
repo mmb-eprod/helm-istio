@@ -1,0 +1,30 @@
+apiVersion: "security.istio.io/v1beta1"
+kind: "AuthorizationPolicy"
+metadata:
+  name: jwt-policy
+  namespace: istio-system
+spec:
+  selector:
+    matchLabels:
+      istio: ingressgateway
+  action: ALLOW
+  rules:
+  - from:
+    - source:
+        requestPrincipals: ["https://example.com/*"]
+
+
+
+        
+#spec: 
+  #     selector:
+  #       matchLabels:
+  #         app: istio-demo-wrapper
+  #     action: ALLOW
+  #     rules:
+  #     - from:
+  #       - source:
+  #           requestPrincipals: ["istiodemo/istiodemo"]
+  #       when:
+  #       - key: request.auth.claims[service]
+  #         values: ["A"]

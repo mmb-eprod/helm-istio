@@ -1,0 +1,1 @@
+kubectl apply -f configs/auth-policy.yaml

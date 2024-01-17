@@ -1,0 +1,1 @@
+kubectl apply -f configs/request-authentication.yaml

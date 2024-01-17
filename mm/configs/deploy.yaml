@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: istio-demo-v1-0
+  namespace: default
+  labels:
+    app: istio-demo-v1-0
+spec:
+  selector:
+    matchLabels:
+      app: istio-demo-v1-0
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: istio-demo-v1-0
+    spec:   
+      containers:
+      - name: istio-demo
+        image: kennethreitz/httpbin
+        ports:
+        - containerPort: 80
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: istio-demo
+  namespace: default
+  labels:
+    app: istio-demo-v1-0
+spec:
+  ports:
+  - protocol: TCP 
+    port: 80
+    name: http
+  selector:
+    app: istio-demo-v1-0

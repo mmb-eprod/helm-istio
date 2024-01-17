@@ -1,0 +1,1 @@
+kubectl apply -f configs/deploy.yaml
